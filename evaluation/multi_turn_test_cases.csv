@@ -1,0 +1,7 @@
+test_id,query_1,query_2,query_3,expected_final_location,expected_final_cuisine,expected_refinement
+MT01,Suggest cafes in Patan.,Make it cheaper.,Quieter.,Patan,Cafe,budget decreased + ambience quiet added
+MT02,Find Korean food near Thamel.,What about vegetarian options?,,Thamel,Korean,dietary vegetarian added
+MT03,I need a restaurant in Baneshwor.,Closer to Thamel instead.,,Thamel,None,location changed
+MT04,Show me a cozy place for a date.,Not too crowded.,Something cheaper.,,None,ambience + budget refinement
+MT05,Find Italian restaurants.,Show vegetarian only.,What about Chinese instead?,None,"Chinese, Vegetarian",cuisine changed + dietary added
+MT06,Quiet cafe in Patan for studying.,Make it more affordable.,Show only vegetarian.,Patan,Cafe,multiple refinements

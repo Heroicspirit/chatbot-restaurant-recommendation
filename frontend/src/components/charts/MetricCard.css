@@ -1,0 +1,62 @@
+.metric-card {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition);
+}
+
+.metric-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.metric-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.metric-icon {
+  font-size: 16px;
+  opacity: 0.7;
+}
+
+.metric-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+}
+
+.metric-value {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  line-height: 1.1;
+  font-family: var(--font-sans);
+}
+
+.metric-subtitle {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 4px;
+  font-family: var(--font-sans);
+}
+
+.metric-trend {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border-soft);
+  font-family: var(--font-sans);
+}
+
+.trend-up { color: var(--sage); }
+.trend-down { color: var(--danger); }

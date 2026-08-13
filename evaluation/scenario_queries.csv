@@ -1,0 +1,41 @@
+query_id,category,query,expected_location,expected_cuisine,expected_budget_max,expected_purpose,expected_ambience,hallucination_risk
+SC001,cuisine-based,"Suggest Korean restaurants near Thamel.",Thamel,Korean,,,,
+SC002,cuisine-based,"Find Italian restaurants in Patan.",Patan,Italian,,,,
+SC003,cuisine-based,"Where can I get Newari food in Patan?",Patan,Newari,,,,
+SC004,cuisine-based,"Chinese food near Baneshwor.",Baneshwor,Chinese,,,,
+SC005,cuisine-based,"Japanese restaurant in Kathmandu.",,,,,
+SC006,budget-based,"Find cheap places around Baneshwor.",Baneshwor,,,,"low",
+SC007,budget-based,"Budget-friendly restaurants in Thamel under Rs. 500.",Thamel,,500,,"low",
+SC008,budget-based,"Affordable cafe near Boudha.",Boudha,Cafe,,,low,
+SC009,budget-based,"Mid-range restaurants in Jhamsikhel.",Jhamsikhel,,,,"medium",
+SC010,budget-based,"Premium dining in Lazimpat.",Lazimpat,,,,"high",
+SC011,purpose-based,"I need a cafe for studying in Patan.",Patan,Cafe,,study,,
+SC012,purpose-based,"Suggest a place for a date in Jhamsikhel.",Jhamsikhel,,,date,,
+SC013,purpose-based,"Looking for a family-friendly restaurant in Baneshwor.",Baneshwor,,,family,,
+SC014,purpose-based,"Where can I hang out with friends in Thamel?",Thamel,,,friends,,
+SC015,purpose-based,"Business lunch spot in Durbarmarg.",Durbarmarg,,,business,,
+SC016,ambience-based,"Suggest a cozy place for a date.",,,,date,cozy
+SC017,ambience-based,"Quiet restaurant near Boudha for studying.",Boudha,,,study,quiet
+SC018,ambience-based,"Romantic dinner spot in Lazimpat.",Lazimpat,,,date,romantic
+SC019,ambience-based,"Lively place in Thamel for group dining.",Thamel,,,friends,lively
+SC020,ambience-based,"Peaceful cafe in Baluwatar.",Baluwatar,Cafe,,,quiet
+SC021,dietary,"Find vegetarian-friendly restaurants near Boudha.",Boudha,,,,,vegetarian
+SC022,dietary,"Veggie options in Patan.",Patan,,,,,vegetarian
+SC023,dietary,"Where can I get vegetarian food in Thamel?",Thamel,,,,,vegetarian
+SC024,dietary,"Restaurants with vegetarian options in Baneshwor.",Baneshwor,,,,,vegetarian
+SC025,multi-constraint,"Quiet Italian restaurant under Rs. 1500 near Lazimpat.",Lazimpat,Italian,1500,,quiet
+SC026,multi-constraint,"Budget-friendly Korean restaurant in Thamel for friends.",Thamel,Korean,,friends,low
+SC027,multi-constraint,"Quiet cafe in Patan under Rs. 1000 for studying.",Patan,Cafe,1000,study,quiet
+SC028,multi-constraint,"Cozy restaurant in Jhamsikhel for a date under Rs. 1500.",Jhamsikhel,,1500,date,cozy
+SC029,ambiguous,"Suggest me somewhere nice.",,,,,,
+SC030,ambiguous,"What's a good place to eat?",,,,,,
+SC031,ambiguous,"Recommend something.",,,,,,
+SC032,no-match,"Mexican restaurant under Rs. 300 in Thamel.",Thamel,"Mexican",300,,,Yes
+SC033,no-match,"Find a place with live music in Patan.",Patan,,,,,Yes
+SC034,no-match,"Lebanese food in Kathmandu.",,"Lebanese",,,,Yes
+SC035,edge-case,"Luxury restaurant under Rs. 200.",,,200,,high,Yes
+SC036,edge-case,"Find a restaurant open at 3 AM.",,,,,,
+SC037,edge-case,"Restaurant in Pokhara.",Pokhara,,,,,Yes
+SC038,multi-constraint,"Vegetarian-friendly Chinese restaurant in Kupondole.",Kupondole,"Vegetarian, Chinese",,,vegetarian
+SC039,cuisine-based,"Multi-cuisine option in Kupondole.",Kupondole,"Multi-cuisine",,,,
+SC040,ambience-based,"Rooftop restaurant in Lazimpat.",Lazimpat,,,,,rooftop

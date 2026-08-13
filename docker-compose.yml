@@ -1,0 +1,35 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: ataraxia-backend
+    ports:
+      - "8002:8000"
+    volumes:
+      - ./ataraxia.db:/app/ataraxia.db
+      - ./data:/app/data
+    environment:
+      - DATABASE_URL=sqlite:///./ataraxia.db
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - LLM_MODEL=llama3.2
+      - LLM_TEMPERATURE=0.1
+      - EMBEDDING_MODEL=all-MiniLM-L6-v2
+      - HOST=0.0.0.0
+      - PORT=8000
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        - VITE_API_BASE=/api
+    container_name: ataraxia-frontend
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
