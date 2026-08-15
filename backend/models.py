@@ -17,6 +17,7 @@ class Restaurant(Base):
     rating = Column(Float)
     review_count = Column(Integer)
     veg_available = Column(Boolean)
+    serves_both = Column(Boolean, default=False)
     ambience_tags = Column(String)
     suitable_for = Column(String)
     opening_hours = Column(String)

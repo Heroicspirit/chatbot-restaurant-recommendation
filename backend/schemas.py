@@ -24,6 +24,7 @@ class RestaurantResponse(BaseModel):
     avg_price_per_person: int
     rating: float
     veg_available: bool
+    serves_both: bool = False
     ambience_tags: str
     suitable_for: str
     description: str

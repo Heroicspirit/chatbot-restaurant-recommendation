@@ -58,6 +58,7 @@ def _seed_database():
                 rating=row["rating"],
                 review_count=row.get("review_count", 0),
                 veg_available=bool(row["veg_available"]),
+                serves_both=bool(row.get("serves_both", False)),
                 ambience_tags=row.get("ambience_tags", ""),
                 suitable_for=row.get("suitable_for", ""),
                 opening_hours=row.get("opening_hours", ""),
@@ -99,6 +100,29 @@ def chat(request: ChatRequest):
     is_greeting = intent_data.pop("greeting", None)
     restaurant_name = intent_data.pop("restaurant_name", None)
     restaurant_id = intent_data.pop("restaurant_id", None)
+
+    # Check for follow-up questions about last restaurant
+    t = request.message.lower().strip()
+    is_followup = any(word in t for word in ["does it", "is it", "has it", "what about", "tell me about"])
+    if is_followup and session.previous_recommendations:
+        last_restaurant_id = session.previous_recommendations[-1]
+        db = SessionLocal()
+        try:
+            restaurant = db.query(Restaurant).filter(Restaurant.restaurant_id == last_restaurant_id).first()
+            if restaurant:
+                # Answer specific questions about the restaurant
+                if "veg" in t:
+                    veg_status = "Yes, vegetarian options are available" if restaurant.veg_available else "No vegetarian options available"
+                    return ChatResponse(
+                        session_id=session.session_id,
+                        intent=IntentResult(),
+                        recommendations=[],
+                        response=f"{restaurant.name}: {veg_status}.",
+                        match_status="none",
+                        active_filters={},
+                    )
+        finally:
+            db.close()
 
     if is_greeting:
         return ChatResponse(
@@ -345,6 +369,7 @@ def _build_rec_responses(recommendations: list) -> list[RestaurantResponse]:
             avg_price_per_person=rec.get("avg_price_per_person", 0),
             rating=rec.get("rating", 0.0),
             veg_available=rec.get("veg_available", False),
+            serves_both=rec.get("serves_both", False),
             ambience_tags=rec.get("ambience_tags", ""),
             suitable_for=rec.get("suitable_for", ""),
             description=rec.get("description", ""),

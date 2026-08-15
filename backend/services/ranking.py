@@ -87,8 +87,24 @@ def score_purpose_match(restaurant: dict, purpose: str | None) -> float:
 def score_dietary_match(restaurant: dict, dietary: str | None) -> float:
     if not dietary:
         return 1.0
+    # For vegetarian preference: show veg restaurants first, but allow non-veg with lower score
     if dietary.lower() == "vegetarian":
-        return 1.0 if restaurant.get("veg_available") else 0.0
+        if restaurant.get("veg_available"):
+            return 1.0
+        else:
+            return 0.3  # Still show non-veg but with lower score
+    # For vegetarian_only preference: show ONLY vegetarian restaurants
+    if dietary.lower() == "vegetarian_only":
+        if restaurant.get("veg_available"):
+            return 1.0
+        else:
+            return 0.0  # Don't show non-veg at all
+    # For non-vegetarian preference: show non-veg restaurants first, but allow veg with lower score
+    if dietary.lower() == "non_vegetarian":
+        if not restaurant.get("veg_available"):
+            return 1.0
+        else:
+            return 0.3  # Still show veg but with lower score
     return 1.0
 
 

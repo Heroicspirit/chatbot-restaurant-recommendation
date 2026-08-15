@@ -95,8 +95,8 @@ class RecommendationEngine:
             pl = preferences["price_level"].lower()
             results = [r for r in results if r.get("price_level", "").lower() == pl]
 
-        if preferences.get("dietary") == "vegetarian":
-            results = [r for r in results if r.get("veg_available")]
+        # Note: Dietary filtering is now handled by ranking scores, not hard filtering
+        # This allows showing restaurants with both options while prioritizing matches
 
         return results
 

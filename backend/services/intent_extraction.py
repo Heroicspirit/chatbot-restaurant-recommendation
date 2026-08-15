@@ -403,6 +403,14 @@ def _fallback_keyword_extraction(text: str) -> dict:
             intent["meal_time"] = value
             break
 
+    # Dietary preferences
+    if re.search(r"\bnon[- ]?veg\b", t) or re.search(r"\bno[- ]?veg\b", t):
+        intent["dietary"] = "non_vegetarian"
+    elif re.search(r"\bonly[- ]?veg\b", t) or re.search(r"\bveg[- ]?only\b", t):
+        intent["dietary"] = "vegetarian_only"
+    elif re.search(r"\bveg(?:etarian)?\b", t) and not re.search(r"\bnon[- ]?veg\b", t) and not re.search(r"\bno[- ]?veg\b", t):
+        intent["dietary"] = "vegetarian"
+
     if not intent.get("location") and not intent.get("cuisine") and not intent.get("budget_max") and not intent.get("purpose") and not intent.get("price_level"):
         intent["clarification_required"] = True
         intent["missing_fields"] = ["location", "cuisine"]
