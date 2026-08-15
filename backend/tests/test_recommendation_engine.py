@@ -58,6 +58,29 @@ class TestRanking:
         score = score_dietary_match(SAMPLE_RESTAURANT, "vegetarian")
         assert score == 1.0
 
+    def test_dietary_vegetarian_only_veg_restaurant(self):
+        score = score_dietary_match(SAMPLE_RESTAURANT, "vegetarian_only")
+        assert score == 1.0
+
+    def test_dietary_vegetarian_only_non_veg_restaurant(self):
+        non_veg = dict(SAMPLE_RESTAURANT, veg_available=False)
+        score = score_dietary_match(non_veg, "vegetarian_only")
+        assert score == 0.0
+
+    def test_dietary_non_veg_only_non_veg_restaurant(self):
+        non_veg = dict(SAMPLE_RESTAURANT, veg_available=False)
+        score = score_dietary_match(non_veg, "non_vegetarian_only")
+        assert score == 1.0
+
+    def test_dietary_non_veg_only_veg_restaurant(self):
+        score = score_dietary_match(SAMPLE_RESTAURANT, "non_vegetarian_only")
+        assert score == 0.0
+
+    def test_dietary_non_veg_matches_serves_both(self):
+        both = dict(SAMPLE_RESTAURANT, veg_available=True, serves_both=True)
+        score = score_dietary_match(both, "non_vegetarian")
+        assert score == 1.0
+
     def test_rating_strength(self):
         score = score_rating_strength(SAMPLE_RESTAURANT)
         assert score == 4.3 / 5.0

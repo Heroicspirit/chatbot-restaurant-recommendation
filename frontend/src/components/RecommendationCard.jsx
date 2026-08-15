@@ -38,11 +38,9 @@ export default function RecommendationCard({ rec, index }) {
         {rec.avg_price_per_person != null && (
           <span className="price-badge">{formatPrice(rec.avg_price_per_person, rec.price_level)}</span>
         )}
-        {rec.veg_available && (
-          <span className="veg-badge">
-            ● Veg options{rec.serves_both ? ' (also serves non-veg)' : ''}
-          </span>
-        )}
+        <span className={`veg-badge ${rec.veg_available ? '' : 'badge-nonveg'}`}>
+          {rec.serves_both ? '● Veg & Non-veg' : rec.veg_available ? '● Veg options' : '● Non-veg only'}
+        </span>
       </div>
       {rec.ambience_tags && (
         <div className="rec-tags">

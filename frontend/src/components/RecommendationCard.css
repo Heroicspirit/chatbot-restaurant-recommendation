@@ -114,6 +114,12 @@
   font-family: var(--font-sans);
 }
 
+.veg-badge.badge-nonveg {
+  background: rgba(196, 125, 106, 0.12);
+  color: #9C5B4A;
+  border: 1px solid rgba(196, 125, 106, 0.28);
+}
+
 /* ── Tags ── */
 .rec-tags {
   display: flex;

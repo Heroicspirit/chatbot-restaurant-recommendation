@@ -114,12 +114,20 @@ SYNONYM_MAP = {
     "laptop": "purpose:study",
     "work": "purpose:study",
     "homework": "purpose:study",
+    "non veg only": "dietary:non_vegetarian_only",
+    "only non veg": "dietary:non_vegetarian_only",
+    "non-veg only": "dietary:non_vegetarian_only",
+    "only non-veg": "dietary:non_vegetarian_only",
+    "non veg": "dietary:non-vegetarian",
+    "non-vegetarian": "dietary:non-vegetarian",
+    "veg only": "dietary:vegetarian_only",
+    "only veg": "dietary:vegetarian_only",
+    "vegetarian only": "dietary:vegetarian_only",
+    "only vegetarian": "dietary:vegetarian_only",
     "veggie": "dietary:vegetarian",
     "no meat": "dietary:vegetarian",
     "veg": "dietary:vegetarian",
     "vegetarian": "dietary:vegetarian",
-    "non veg": "dietary:non-vegetarian",
-    "non-vegetarian": "dietary:non-vegetarian",
 }
 
 
@@ -404,11 +412,16 @@ def _fallback_keyword_extraction(text: str) -> dict:
             break
 
     # Dietary preferences
-    if re.search(r"\bnon[- ]?veg\b", t) or re.search(r"\bno[- ]?veg\b", t):
-        intent["dietary"] = "non_vegetarian"
-    elif re.search(r"\bonly[- ]?veg\b", t) or re.search(r"\bveg[- ]?only\b", t):
+    has_non_veg = re.search(r"\bnon[- ]?veg\b", t) or re.search(r"\bno[- ]?veg\b", t)
+    has_only = re.search(r"\bonly\b", t)
+    if has_non_veg:
+        if has_only:
+            intent["dietary"] = "non_vegetarian_only"
+        else:
+            intent["dietary"] = "non_vegetarian"
+    elif re.search(r"\bonly[- ]?veg\b", t) or re.search(r"\bveg[- ]?only\b", t) or re.search(r"\bonly\s+vegetarian\b", t):
         intent["dietary"] = "vegetarian_only"
-    elif re.search(r"\bveg(?:etarian)?\b", t) and not re.search(r"\bnon[- ]?veg\b", t) and not re.search(r"\bno[- ]?veg\b", t):
+    elif re.search(r"\bveg(?:etarian)?\b", t) and not has_non_veg:
         intent["dietary"] = "vegetarian"
 
     if not intent.get("location") and not intent.get("cuisine") and not intent.get("budget_max") and not intent.get("purpose") and not intent.get("price_level"):

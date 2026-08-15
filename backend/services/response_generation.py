@@ -60,6 +60,14 @@ def format_price_label(avg_price, price_level):
     return "Price not available"
 
 
+DIETARY_LABELS = {
+    "vegetarian": "Vegetarian",
+    "vegetarian_only": "Veg only",
+    "non_vegetarian": "Non-veg",
+    "non_vegetarian_only": "Non-veg only",
+}
+
+
 def format_active_filters(preferences: dict) -> str:
     labels = {
         "location": "Area", "cuisine": "Cuisine", "budget_max": "Budget ≤ Rs.",
@@ -70,7 +78,10 @@ def format_active_filters(preferences: dict) -> str:
     for key, label in labels.items():
         val = preferences.get(key)
         if val:
-            display = ", ".join(val) if isinstance(val, list) else str(val)
+            if key == "dietary":
+                display = DIETARY_LABELS.get(str(val), str(val))
+            else:
+                display = ", ".join(val) if isinstance(val, list) else str(val)
             lines.append(f"· {label}: {display}")
     return "\n".join(lines) if lines else ""
 
@@ -147,6 +158,12 @@ def build_no_match_sentence(preferences: dict) -> str:
     descriptors = []
     if dietary == "vegetarian":
         descriptors.append("vegetarian-friendly")
+    elif dietary == "vegetarian_only":
+        descriptors.append("vegetarian-only")
+    elif dietary == "non_vegetarian":
+        descriptors.append("non-vegetarian-friendly")
+    elif dietary == "non_vegetarian_only":
+        descriptors.append("non-vegetarian-only")
     if ambience:
         if isinstance(ambience, list):
             descriptors.extend(ambience)

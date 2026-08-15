@@ -2,6 +2,13 @@ import React from 'react'
 import RecommendationCard from './RecommendationCard'
 import './Message.css'
 
+const DIETARY_LABELS = {
+  vegetarian: 'Vegetarian',
+  vegetarian_only: 'Veg only',
+  non_vegetarian: 'Non-veg',
+  non_vegetarian_only: 'Non-veg only',
+}
+
 export default function Message({ message }) {
   const isUser = message.role === 'user'
 
@@ -10,7 +17,7 @@ export default function Message({ message }) {
     if (filters.location) parts.push(`Area = ${filters.location}`)
     if (filters.cuisine) parts.push(`Cuisine = ${Array.isArray(filters.cuisine) ? filters.cuisine.join(', ') : filters.cuisine}`)
     if (filters.budget_max) parts.push(`Budget ≤ Rs. ${filters.budget_max}`)
-    if (filters.dietary) parts.push(`Dietary = ${filters.dietary}`)
+    if (filters.dietary) parts.push(`Dietary = ${DIETARY_LABELS[filters.dietary] || filters.dietary}`)
     if (filters.ambience) parts.push(`Vibe = ${Array.isArray(filters.ambience) ? filters.ambience.join(', ') : filters.ambience}`)
     if (filters.purpose) parts.push(`Purpose = ${filters.purpose}`)
     return parts.join(' · ')

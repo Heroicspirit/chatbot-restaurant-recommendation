@@ -95,8 +95,13 @@ class RecommendationEngine:
             pl = preferences["price_level"].lower()
             results = [r for r in results if r.get("price_level", "").lower() == pl]
 
-        # Note: Dietary filtering is now handled by ranking scores, not hard filtering
-        # This allows showing restaurants with both options while prioritizing matches
+        # Strict dietary preferences are hard-filtered so users asking for
+        # "veg only" or "non-veg only" get exactly that.
+        dietary = preferences.get("dietary")
+        if dietary == "vegetarian_only":
+            results = [r for r in results if r.get("veg_available")]
+        elif dietary == "non_vegetarian_only":
+            results = [r for r in results if not r.get("veg_available") or r.get("serves_both")]
 
         return results
 

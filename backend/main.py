@@ -112,7 +112,12 @@ def chat(request: ChatRequest):
             if restaurant:
                 # Answer specific questions about the restaurant
                 if "veg" in t:
-                    veg_status = "Yes, vegetarian options are available" if restaurant.veg_available else "No vegetarian options available"
+                    if restaurant.serves_both:
+                        veg_status = "Yes, it serves both vegetarian and non-vegetarian options"
+                    elif restaurant.veg_available:
+                        veg_status = "Yes, vegetarian options are available"
+                    else:
+                        veg_status = "No vegetarian options available (non-veg only)"
                     return ChatResponse(
                         session_id=session.session_id,
                         intent=IntentResult(),

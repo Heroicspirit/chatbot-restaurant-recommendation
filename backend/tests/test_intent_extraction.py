@@ -38,3 +38,29 @@ class TestIntentExtraction:
         intent = {"location": "Patan"}
         result = normalize_preferences(intent, original_message="I need to study")
         assert result["purpose"] == "study"
+
+    def test_fallback_veg_restaurant(self):
+        result = _fallback_keyword_extraction("veg restaurant in Patan")
+        assert result["dietary"] == "vegetarian"
+
+    def test_fallback_veg_only(self):
+        result = _fallback_keyword_extraction("veg only restaurant in Patan")
+        assert result["dietary"] == "vegetarian_only"
+
+    def test_fallback_non_veg(self):
+        result = _fallback_keyword_extraction("non veg restaurant in Patan")
+        assert result["dietary"] == "non_vegetarian"
+
+    def test_fallback_non_veg_only(self):
+        result = _fallback_keyword_extraction("non veg only restaurant in Patan")
+        assert result["dietary"] == "non_vegetarian_only"
+
+    def test_normalize_veg_only(self):
+        intent = {"location": "Patan"}
+        result = normalize_preferences(intent, original_message="veg only restaurant in Patan")
+        assert result["dietary"] == "vegetarian_only"
+
+    def test_normalize_non_veg_only(self):
+        intent = {"location": "Patan"}
+        result = normalize_preferences(intent, original_message="non veg only restaurant in Patan")
+        assert result["dietary"] == "non_vegetarian_only"

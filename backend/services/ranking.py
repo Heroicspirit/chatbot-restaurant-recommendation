@@ -87,24 +87,22 @@ def score_purpose_match(restaurant: dict, purpose: str | None) -> float:
 def score_dietary_match(restaurant: dict, dietary: str | None) -> float:
     if not dietary:
         return 1.0
-    # For vegetarian preference: show veg restaurants first, but allow non-veg with lower score
-    if dietary.lower() == "vegetarian":
-        if restaurant.get("veg_available"):
-            return 1.0
-        else:
-            return 0.3  # Still show non-veg but with lower score
-    # For vegetarian_only preference: show ONLY vegetarian restaurants
-    if dietary.lower() == "vegetarian_only":
-        if restaurant.get("veg_available"):
-            return 1.0
-        else:
-            return 0.0  # Don't show non-veg at all
-    # For non-vegetarian preference: show non-veg restaurants first, but allow veg with lower score
-    if dietary.lower() == "non_vegetarian":
-        if not restaurant.get("veg_available"):
-            return 1.0
-        else:
-            return 0.3  # Still show veg but with lower score
+    dietary = dietary.lower()
+    serves_veg = bool(restaurant.get("veg_available"))
+    serves_non_veg = (not serves_veg) or bool(restaurant.get("serves_both"))
+
+    # Soft vegetarian: show veg restaurants first, but allow non-veg with lower score
+    if dietary == "vegetarian":
+        return 1.0 if serves_veg else 0.3
+    # Strict vegetarian: show ONLY restaurants with veg options
+    if dietary == "vegetarian_only":
+        return 1.0 if serves_veg else 0.0
+    # Soft non-vegetarian: show non-veg restaurants first, but allow veg with lower score
+    if dietary == "non_vegetarian":
+        return 1.0 if serves_non_veg else 0.3
+    # Strict non-vegetarian: show ONLY restaurants with non-veg options
+    if dietary == "non_vegetarian_only":
+        return 1.0 if serves_non_veg else 0.0
     return 1.0
 
 
@@ -161,9 +159,12 @@ def build_matched_factors(preferences: dict, restaurant: dict) -> list:
         matched_vibes = [v for v in preferences["ambience"] if v.lower() in tags]
         if matched_vibes:
             factors.append(f"{', '.join(matched_vibes)} atmosphere")
-    if preferences.get("dietary") == "vegetarian":
-        if restaurant.get("veg_available"):
+    if preferences.get("dietary"):
+        d = preferences["dietary"]
+        if d in ("vegetarian", "vegetarian_only") and restaurant.get("veg_available"):
             factors.append("vegetarian options available")
+        if d in ("non_vegetarian", "non_vegetarian_only") and (not restaurant.get("veg_available") or restaurant.get("serves_both")):
+            factors.append("non-vegetarian options available")
     return factors
 
 
