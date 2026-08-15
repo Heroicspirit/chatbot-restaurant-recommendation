@@ -7,6 +7,7 @@ Rules:
 - If important fields are missing, list them in missing_fields.
 - Set clarification_required to true if the query is too vague to make useful recommendations.
 - Return valid JSON only. No explanation, no preamble, no markdown formatting.
+- If the user offers alternatives with "or" (e.g. "veg restaurant or cafe"), treat them as alternatives, not combined requirements: keep only the first-mentioned food preference (dietary or cuisine) and set the other to null.
 
 Allowed fields and valid values:
 - location: any area in Kathmandu (e.g. Thamel, Patan, Baneshwor, Boudha, Jhamsikhel, Lazimpat, Durbarmarg, New Road, Baluwatar, Maharajgunj, Kupondole, Naxal)

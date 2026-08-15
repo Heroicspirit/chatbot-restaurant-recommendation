@@ -25,7 +25,9 @@ export default function Message({ message }) {
 
   const hasFilters = message.activeFilters && Object.values(message.activeFilters).some(v => v)
   const isNoMatch = message.text && message.text.includes('No exact match found')
-  const showFilters = hasFilters && (message.recommendations?.length > 0 || isNoMatch)
+  // The backend no-match message already prints "Using filters:", so only render
+  // the compact filter line when we have actual result cards.
+  const showFilters = hasFilters && !isNoMatch && message.recommendations?.length > 0
 
   return (
     <div className={`message-row ${isUser ? 'user' : 'bot'}`}>

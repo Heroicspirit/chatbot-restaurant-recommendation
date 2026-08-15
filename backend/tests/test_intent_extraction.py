@@ -64,3 +64,19 @@ class TestIntentExtraction:
         intent = {"location": "Patan"}
         result = normalize_preferences(intent, original_message="non veg only restaurant in Patan")
         assert result["dietary"] == "non_vegetarian_only"
+
+    def test_fallback_or_keeps_first_mentioned_preference(self):
+        result = _fallback_keyword_extraction("veg restaurant or cafe in Patan")
+        assert result["dietary"] == "vegetarian"
+        assert result["cuisine"] is None
+
+    def test_fallback_or_cafe_first_keeps_cafe(self):
+        result = _fallback_keyword_extraction("cafe or veg restaurant in Patan")
+        assert result["cuisine"] == ["cafe"]
+        assert result["dietary"] is None
+
+    def test_normalize_or_keeps_first_mentioned_preference(self):
+        intent = {"location": "Patan", "cuisine": ["cafe"], "dietary": "vegetarian"}
+        result = normalize_preferences(intent, original_message="veg restaurant or cafe in Patan")
+        assert result["dietary"] == "vegetarian"
+        assert result["cuisine"] is None

@@ -118,8 +118,8 @@ SYNONYM_MAP = {
     "only non veg": "dietary:non_vegetarian_only",
     "non-veg only": "dietary:non_vegetarian_only",
     "only non-veg": "dietary:non_vegetarian_only",
-    "non veg": "dietary:non-vegetarian",
-    "non-vegetarian": "dietary:non-vegetarian",
+    "non veg": "dietary:non_vegetarian",
+    "non-vegetarian": "dietary:non_vegetarian",
     "veg only": "dietary:vegetarian_only",
     "only veg": "dietary:vegetarian_only",
     "vegetarian only": "dietary:vegetarian_only",
@@ -129,6 +129,35 @@ SYNONYM_MAP = {
     "veg": "dietary:vegetarian",
     "vegetarian": "dietary:vegetarian",
 }
+
+
+def _resolve_or_alternatives(intent: dict, text: str) -> dict:
+    """If the user offers alternatives with "or" (e.g. "veg restaurant or cafe"),
+    keep only the first-mentioned food preference instead of combining them
+    into hard AND filters that would wrongly return no matches."""
+    if not re.search(r"\bor\b", text):
+        return intent
+
+    dietary_pos = -1
+    if intent.get("dietary"):
+        dietary = str(intent["dietary"]).lower().replace("-", "_")
+        if dietary in ("non_vegetarian", "non_vegetarian_only"):
+            m = re.search(r"\bnon[- ]?veg\b", text)
+        else:
+            m = re.search(r"\bveg(?:etarian)?\b", text)
+        dietary_pos = m.start() if m else -1
+    cuisine_pos = -1
+    if intent.get("cuisine"):
+        c = re.escape(intent["cuisine"][0].lower())
+        m = re.search(r"\b" + c + r"\b", text)
+        cuisine_pos = m.start() if m else text.find(intent["cuisine"][0].lower())
+
+    if dietary_pos >= 0 and cuisine_pos >= 0:
+        if dietary_pos < cuisine_pos:
+            intent["cuisine"] = None  # "veg restaurant or cafe" -> keep veg
+        else:
+            intent["dietary"] = None  # "cafe or veg restaurant" -> keep cafe
+    return intent
 
 
 def normalize_preferences(intent: dict, original_message: str = "") -> dict:
@@ -141,7 +170,7 @@ def normalize_preferences(intent: dict, original_message: str = "") -> dict:
                     intent[field] = [value]
                 else:
                     intent[field] = value
-    return intent
+    return _resolve_or_alternatives(intent, text)
 
 
 def validate_intent(intent: dict) -> dict:
@@ -423,6 +452,8 @@ def _fallback_keyword_extraction(text: str) -> dict:
         intent["dietary"] = "vegetarian_only"
     elif re.search(r"\bveg(?:etarian)?\b", t) and not has_non_veg:
         intent["dietary"] = "vegetarian"
+
+    intent = _resolve_or_alternatives(intent, t)
 
     if not intent.get("location") and not intent.get("cuisine") and not intent.get("budget_max") and not intent.get("purpose") and not intent.get("price_level"):
         intent["clarification_required"] = True
