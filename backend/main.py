@@ -97,6 +97,8 @@ def chat(request: ChatRequest):
     intent_data = extract_intent(request.message)
     command = intent_data.pop("command", None)
     is_greeting = intent_data.pop("greeting", None)
+    restaurant_name = intent_data.pop("restaurant_name", None)
+    restaurant_id = intent_data.pop("restaurant_id", None)
 
     if is_greeting:
         return ChatResponse(
@@ -109,11 +111,47 @@ def chat(request: ChatRequest):
                 "· Korean in Thamel\n"
                 "· Quiet cafe in Patan under Rs. 1000\n"
                 "· Vegetarian food near Boudha\n\n"
-                "You can also type 'areas', 'cuisines', or 'show all'."
+                "You can also type a restaurant name directly, or type 'areas', 'cuisines', or 'show all'."
             ),
             match_status="none",
             active_filters={},
         )
+
+    if restaurant_name and restaurant_id:
+        # User typed a specific restaurant name - return that restaurant
+        db = SessionLocal()
+        try:
+            restaurant = db.query(Restaurant).filter(Restaurant.restaurant_id == restaurant_id).first()
+            if restaurant:
+                rec_response = RestaurantResponse(
+                    restaurant_id=restaurant.restaurant_id,
+                    name=restaurant.name,
+                    area=restaurant.area,
+                    cuisine=restaurant.cuisine,
+                    price_level=restaurant.price_level,
+                    avg_price_per_person=restaurant.avg_price_per_person,
+                    rating=restaurant.rating,
+                    veg_available=restaurant.veg_available,
+                    ambience_tags=restaurant.ambience_tags,
+                    suitable_for=restaurant.suitable_for,
+                    description=restaurant.description,
+                    final_score=1.0,
+                    matched_factors=["exact restaurant name match"],
+                    reason=f"You asked about {restaurant.name}. Here are the details:",
+                    match_type="exact",
+                    match_status="exact",
+                )
+                return ChatResponse(
+                    session_id=session.session_id,
+                    intent=IntentResult(**intent_data),
+                    recommendations=[rec_response],
+                    response=f"Here are the details for {restaurant.name}:",
+                    match_status="exact",
+                    active_filters=build_active_filters(intent_data),
+                    result_count=1,
+                )
+        finally:
+            db.close()
 
     if command == "reset":
         session_manager.reset_session(request.session_id)

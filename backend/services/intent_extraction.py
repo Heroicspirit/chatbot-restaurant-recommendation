@@ -8,6 +8,7 @@ _BACKEND_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROMPT_PATH = os.path.join(_BACKEND_DIR, "prompts", "intent_extraction_prompt.txt")
 
 _ollama_available: bool | None = None
+_restaurant_names: set[str] = set()
 
 COMMANDS = ["areas", "cuisines", "show all", "more", "next", "the best", "best", "reset"]
 
@@ -24,6 +25,32 @@ KNOWN_CUISINES = {
     "chinese", "continental", "cafe", "bakery", "fast food",
     "vegetarian", "multi-cuisine"
 }
+
+
+def _load_restaurant_names():
+    """Load restaurant names from the database for recognition."""
+    global _restaurant_names
+    try:
+        from database import SessionLocal
+        from models import Restaurant
+        db = SessionLocal()
+        try:
+            restaurants = db.query(Restaurant).all()
+            _restaurant_names = {r.name.lower() for r in restaurants}
+            print(f"Loaded {len(_restaurant_names)} restaurant names from database")
+        finally:
+            db.close()
+    except Exception as e:
+        print(f"Database load failed: {e}, trying CSV fallback")
+        # Fallback to CSV if database not available
+        try:
+            import pandas as pd
+            df = pd.read_csv(settings.data_path)
+            _restaurant_names = {name.lower() for name in df["name"].dropna()}
+            print(f"Loaded {len(_restaurant_names)} restaurant names from CSV")
+        except Exception as e2:
+            print(f"CSV load also failed: {e2}")
+            pass
 
 
 def _check_ollama() -> bool:
@@ -161,6 +188,13 @@ def classify_intent(message: str) -> str:
     if text in KNOWN_CUISINES:
         return "set_cuisine"
 
+    # Check for restaurant name (if any restaurant name is contained in the message)
+    if not _restaurant_names:
+        _load_restaurant_names()
+    for name in _restaurant_names:
+        if name in text:
+            return "restaurant_name"
+
     return "recommend"
 
 
@@ -177,6 +211,7 @@ def detect_command(message: str) -> str | None:
         "set_budget": None,
         "set_area": None,
         "set_cuisine": None,
+        "restaurant_name": None,
         "recommend": None,
     }
     return mapping.get(intent_type)
@@ -204,6 +239,9 @@ def extract_intent(user_message: str) -> dict:
             "clarification_required": False, "missing_fields": [],
         }
 
+    if intent_type == "restaurant_name":
+        return _handle_restaurant_name(user_message)
+
     if intent_type in ("set_area", "set_cuisine", "set_budget"):
         return _handle_single_field(intent_type, user_message)
 
@@ -223,6 +261,54 @@ def extract_intent(user_message: str) -> dict:
     intent = validate_intent(intent)
     intent = normalize_preferences(intent, user_message)
     return intent
+
+
+def _handle_restaurant_name(message: str) -> dict:
+    """Handle when user types a specific restaurant name."""
+    text = message.lower().strip()
+    
+    # Load restaurant names if not already loaded
+    if not _restaurant_names:
+        _load_restaurant_names()
+    
+    # Check if any restaurant name is contained in the message
+    matched_name = None
+    for name in _restaurant_names:
+        if name in text:
+            matched_name = name
+            break
+    
+    if not matched_name:
+        # Fallback to keyword extraction if no restaurant name found
+        return _fallback_keyword_extraction(message)
+    
+    # Find the restaurant in database
+    try:
+        from database import SessionLocal
+        from models import Restaurant
+        db = SessionLocal()
+        try:
+            restaurant = db.query(Restaurant).filter(
+                Restaurant.name.ilike(matched_name)
+            ).first()
+            if restaurant:
+                return {
+                    "restaurant_name": restaurant.name,
+                    "restaurant_id": restaurant.restaurant_id,
+                    "location": restaurant.area,
+                    "cuisine": [c.strip() for c in restaurant.cuisine.split(",")],
+                    "budget_max": restaurant.avg_price_per_person,
+                    "price_level": restaurant.price_level,
+                    "clarification_required": False,
+                    "missing_fields": [],
+                }
+        finally:
+            db.close()
+    except Exception:
+        pass
+    
+    # Fallback to keyword extraction if database lookup fails
+    return _fallback_keyword_extraction(message)
 
 
 def _handle_single_field(intent_type: str, message: str) -> dict:
