@@ -1,4 +1,5 @@
 import React from 'react'
+import { IconStar, IconCheck, IconInfo } from './icons'
 import './RecommendationCard.css'
 
 const PRICE_LABELS = {
@@ -31,16 +32,18 @@ export default function RecommendationCard({ rec, index }) {
           <p className="rec-sub">{rec.area} · {rec.cuisine}</p>
         </div>
         <div className="rec-header-right">
-          {rec.rating && <span className="rec-rating">{rec.rating}</span>}
+          {rec.rating && (
+            <span className="rec-rating"><IconStar size={11} /> {rec.rating}</span>
+          )}
         </div>
       </div>
       <div className="rec-meta">
         {rec.avg_price_per_person != null && (
           <span className="price-badge">{formatPrice(rec.avg_price_per_person, rec.price_level)}</span>
         )}
-        <span className={`veg-badge ${rec.veg_available ? '' : 'badge-nonveg'}`}>
-          {rec.serves_both ? '● Veg & Non-veg' : rec.veg_available ? '● Veg options' : '● Non-veg only'}
-        </span>
+        {rec.veg_available && (
+          <span className="veg-badge"><IconCheck size={11} /> Veg options</span>
+        )}
       </div>
       {rec.ambience_tags && (
         <div className="rec-tags">
@@ -51,7 +54,11 @@ export default function RecommendationCard({ rec, index }) {
       )}
       <div className="rec-reason">
         <span className={`match-badge ${isExact ? 'badge-exact' : 'badge-closest'}`}>
-          {isExact ? '✓ Exact match' : '≈ Closest alternative'}
+          {isExact ? (
+            <><IconCheck size={11} /> Exact match</>
+          ) : (
+            <><IconInfo size={11} /> Closest alternative</>
+          )}
         </span>
         <p className="reason-text"><strong>Why:</strong> {rec.reason || 'Best available match.'}</p>
       </div>

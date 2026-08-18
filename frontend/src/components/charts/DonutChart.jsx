@@ -2,9 +2,8 @@ import React from 'react'
 import './DonutChart.css'
 
 const COLORS = [
-  '#C4956A', '#8FA89A', '#D4A574', '#A67C55',
-  '#B89A7A', '#6F8A7C', '#C47D6A', '#9C8B7A',
-  '#7A9B8A', '#BFA88A', '#8A7A6A', '#D4BFA0',
+  'var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)', 'var(--chart-5)',
+  'var(--chart-3)', 'var(--chart-2)', 'var(--chart-4)', 'var(--chart-1)', 'var(--chart-5)',
 ]
 
 export default function DonutChart({ data, title, size = 160 }) {
@@ -37,7 +36,7 @@ export default function DonutChart({ data, title, size = 160 }) {
       {title && <h4 className="chart-title">{title}</h4>}
       <div className="donut-body">
         <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-          <circle cx={cx} cy={cy} r={radius} fill="none" stroke="var(--border-soft)" strokeWidth={size * 0.1} />
+          <circle cx={cx} cy={cy} r={radius} fill="none" stroke="var(--surface-muted)" strokeWidth={size * 0.1} />
           {segments.map((seg, i) => (
             <circle
               key={i}
@@ -53,10 +52,10 @@ export default function DonutChart({ data, title, size = 160 }) {
               style={{ transition: 'stroke-dashoffset 0.6s ease' }}
             />
           ))}
-          <text x={cx} y={cy - 4} textAnchor="middle" fontSize="22" fontWeight="800" fill="var(--text)">
+          <text x={cx} y={cy - 4} textAnchor="middle" fontSize="22" fontWeight="600" fill="var(--text)">
             {total}
           </text>
-          <text x={cx} y={cy + 14} textAnchor="middle" fontSize="11" fill="var(--text-light)">
+          <text x={cx} y={cy + 14} textAnchor="middle" fontSize="11" fill="var(--text-muted)">
             total
           </text>
         </svg>

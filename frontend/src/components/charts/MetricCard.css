@@ -1,14 +1,14 @@
 .metric-card {
   background: var(--surface);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   padding: 18px 20px;
-  box-shadow: var(--shadow-card);
-  transition: var(--transition);
+  box-shadow: var(--shadow-lift);
+  transition: box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
 }
 
 .metric-card:hover {
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-panel);
   transform: translateY(-2px);
 }
 
@@ -20,8 +20,8 @@
 }
 
 .metric-icon {
-  font-size: 16px;
-  opacity: 0.7;
+  display: inline-flex;
+  color: var(--secondary);
 }
 
 .metric-label {
@@ -30,33 +30,33 @@
   text-transform: uppercase;
   letter-spacing: 0.07em;
   color: var(--text-muted);
-  font-family: var(--font-sans);
 }
 
 .metric-value {
-  font-size: 32px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
   color: var(--text);
   line-height: 1.1;
-  font-family: var(--font-sans);
 }
 
 .metric-subtitle {
   font-size: 12px;
-  color: var(--text-light);
+  color: var(--text-faint);
   margin-top: 4px;
-  font-family: var(--font-sans);
 }
 
 .metric-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-size: 11px;
   font-weight: 600;
   margin-top: 6px;
   padding-top: 6px;
-  border-top: 1px solid var(--border-soft);
-  font-family: var(--font-sans);
+  border-top: 1px solid var(--border);
 }
 
-.trend-up { color: var(--sage); }
-.trend-down { color: var(--danger); }
+.trend-up { color: var(--success); }
+.trend-dowan { color: var(--warning); }

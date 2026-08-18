@@ -1,15 +1,9 @@
 import React from 'react'
 import RecommendationCard from './RecommendationCard'
+import { BrandMark, IconUser, IconRetry } from './icons'
 import './Message.css'
 
-const DIETARY_LABELS = {
-  vegetarian: 'Vegetarian',
-  vegetarian_only: 'Veg only',
-  non_vegetarian: 'Non-veg',
-  non_vegetarian_only: 'Non-veg only',
-}
-
-export default function Message({ message }) {
+export default function Message({ message, index, isLast, canRegenerate, onRegenerate }) {
   const isUser = message.role === 'user'
 
   function buildCompactFilters(filters) {
@@ -17,7 +11,7 @@ export default function Message({ message }) {
     if (filters.location) parts.push(`Area = ${filters.location}`)
     if (filters.cuisine) parts.push(`Cuisine = ${Array.isArray(filters.cuisine) ? filters.cuisine.join(', ') : filters.cuisine}`)
     if (filters.budget_max) parts.push(`Budget ≤ Rs. ${filters.budget_max}`)
-    if (filters.dietary) parts.push(`Dietary = ${DIETARY_LABELS[filters.dietary] || filters.dietary}`)
+    if (filters.dietary) parts.push(`Dietary = ${filters.dietary}`)
     if (filters.ambience) parts.push(`Vibe = ${Array.isArray(filters.ambience) ? filters.ambience.join(', ') : filters.ambience}`)
     if (filters.purpose) parts.push(`Purpose = ${filters.purpose}`)
     return parts.join(' · ')
@@ -25,14 +19,12 @@ export default function Message({ message }) {
 
   const hasFilters = message.activeFilters && Object.values(message.activeFilters).some(v => v)
   const isNoMatch = message.text && message.text.includes('No exact match found')
-  // The backend no-match message already prints "Using filters:", so only render
-  // the compact filter line when we have actual result cards.
-  const showFilters = hasFilters && !isNoMatch && message.recommendations?.length > 0
+  const showFilters = hasFilters && (message.recommendations?.length > 0 || isNoMatch)
 
   return (
     <div className={`message-row ${isUser ? 'user' : 'bot'}`}>
       <div className={`avatar ${isUser ? 'user-avatar' : 'bot-avatar'}`}>
-        {isUser ? 'U' : 'A'}
+        {isUser ? <IconUser size={15} /> : <BrandMark size={15} />}
       </div>
       <div className="bubble-col">
         <div className={`bubble ${isUser ? 'user-bubble' : 'bot-bubble'}`}>
@@ -49,6 +41,11 @@ export default function Message({ message }) {
               <RecommendationCard key={rec.restaurant_id || i} rec={rec} index={i} />
             ))}
           </div>
+        )}
+        {!isUser && isLast && canRegenerate && !isNoMatch && (
+          <button type="button" className="regenerate-btn" onClick={() => onRegenerate(index)}>
+            <IconRetry size={11} /> Regenerate
+          </button>
         )}
       </div>
     </div>

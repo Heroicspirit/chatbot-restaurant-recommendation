@@ -396,7 +396,7 @@ def _fallback_keyword_extraction(text: str) -> dict:
 
     known_cuisines = [
         "nepali", "newari", "indian", "korean", "japanese", "chinese",
-        "italian", "continental", "cafe", "bakery", "fast food", "vegetarian"
+        "italian", "continental", "cafe", "bakery", "fast food"
     ]
     matched = [c for c in known_cuisines if c in t]
     if matched:

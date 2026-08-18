@@ -1,9 +1,9 @@
 .donut-chart {
   background: var(--surface);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   padding: 18px;
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-lift);
 }
 
 .chart-title {
@@ -13,7 +13,6 @@
   letter-spacing: 0.07em;
   color: var(--text-muted);
   margin-bottom: 14px;
-  font-family: var(--font-sans);
 }
 
 .donut-body {
@@ -34,7 +33,6 @@
   align-items: center;
   gap: 7px;
   font-size: 12px;
-  font-family: var(--font-sans);
 }
 
 .legend-dot {

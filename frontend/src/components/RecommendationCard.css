@@ -1,11 +1,10 @@
 .rec-card {
   background: var(--surface);
-  border: 1px solid var(--border-soft);
-  border-left: 4px solid var(--sage);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--secondary);
   border-radius: var(--radius-lg);
   padding: 16px 20px;
-  box-shadow: var(--shadow-card);
-  transition: var(--transition);
+  box-shadow: var(--shadow-lift);
   opacity: 0;
   transform: translateY(10px);
   animation: cardEntrance 0.35s ease forwards;
@@ -16,16 +15,16 @@
 }
 
 .rec-card.match-exact {
-  border-left-color: var(--sage);
+  border-left-color: var(--secondary);
 }
 
 .rec-card.match-closest {
-  border-left-color: var(--gold);
+  border-left-color: var(--primary);
 }
 
 .rec-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-panel);
 }
 
 /* ── Header ── */
@@ -42,18 +41,17 @@
 }
 
 .rec-name {
-  font-family: var(--font);
-  font-size: 17px;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   color: var(--text);
-  letter-spacing: -0.01em;
 }
 
 .rec-sub {
   margin-top: 2px;
   font-size: 12px;
   color: var(--text-muted);
-  font-family: var(--font-sans);
 }
 
 .rec-header-right {
@@ -66,22 +64,15 @@
 .rec-rating {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
-  background: var(--gold-light);
-  color: var(--primary-dark);
-  border: 1px solid rgba(212, 165, 116, 0.3);
+  gap: 4px;
+  background: var(--chart-soft-1);
+  color: var(--primary);
+  border: 1px solid var(--border);
   padding: 4px 9px;
   border-radius: var(--radius-full);
   font-size: 12px;
   font-weight: 700;
   white-space: nowrap;
-  font-family: var(--font-sans);
-}
-
-.rec-rating::before {
-  content: '★';
-  margin-right: 1px;
-  color: var(--gold);
 }
 
 /* ── Meta Badges ── */
@@ -93,31 +84,26 @@
 }
 
 .price-badge {
-  background: var(--primary-light);
-  color: var(--primary-dark);
-  border: 1px solid rgba(196, 149, 106, 0.2);
+  background: var(--surface-soft);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
   padding: 4px 9px;
   border-radius: var(--radius-full);
   font-size: 12px;
   font-weight: 500;
-  font-family: var(--font-sans);
 }
 
 .veg-badge {
-  background: var(--sage-light);
-  color: var(--sage-dark);
-  border: 1px solid rgba(143, 168, 154, 0.25);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--success-soft);
+  color: var(--success);
+  border: 1px solid var(--border);
   padding: 4px 9px;
   border-radius: var(--radius-full);
   font-size: 12px;
   font-weight: 500;
-  font-family: var(--font-sans);
-}
-
-.veg-badge.badge-nonveg {
-  background: rgba(196, 125, 106, 0.12);
-  color: #9C5B4A;
-  border: 1px solid rgba(196, 125, 106, 0.28);
 }
 
 /* ── Tags ── */
@@ -134,40 +120,39 @@
   padding: 3px 8px;
   border-radius: var(--radius-full);
   font-size: 11px;
-  font-family: var(--font-sans);
 }
 
 /* ── Reason & Match Badge ── */
 .rec-reason {
-  border-top: 1px solid var(--border-soft);
+  border-top: 1px solid var(--border);
   padding-top: 10px;
 }
 
 .match-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   padding: 3px 9px;
   border-radius: var(--radius-full);
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 6px;
-  font-family: var(--font-sans);
 }
 
 .badge-exact {
-  background: var(--sage-light);
-  color: var(--sage-dark);
+  background: var(--chart-soft-2);
+  color: var(--secondary);
 }
 
 .badge-closest {
-  background: var(--gold-light);
-  color: #8B7355;
+  background: var(--surface-muted);
+  color: var(--text-muted);
 }
 
 .reason-text {
   font-size: 12px;
   color: var(--text-muted);
   line-height: 1.5;
-  font-family: var(--font-sans);
 }
 
 .reason-text strong {

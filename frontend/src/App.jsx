@@ -1,6 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import ChatWindow from './components/ChatWindow'
 import Dashboard from './components/Dashboard'
+import ThemeToggle from './components/ThemeToggle'
+import {
+  BrandMark, IconChat, IconAnalytics, IconMapPin, IconUtensils,
+  IconList, IconReset, IconSearch, IconShield,
+} from './components/icons'
 import { getRestaurants } from './services/api'
 import './App.css'
 
@@ -22,13 +27,13 @@ const SAVED_SEARCHES = [
   { label: 'Best rated Italian', query: 'Best Italian restaurant in Kathmandu' },
 ]
 
-const FILTER_COLORS = {
-  location: '#8FA89A',
-  cuisine: '#C4956A',
-  budget_max: '#D4A574',
-  purpose: '#A67C55',
-  dietary: '#6F8A7C',
-  ambience: '#B89A7A',
+const FILTER_TINTS = {
+  location: 'tint-patina',
+  cuisine: 'tint-gold',
+  budget_max: 'tint-vermilion',
+  purpose: 'tint-gold',
+  dietary: 'tint-patina',
+  ambience: 'tint-neutral',
 }
 
 export default function App() {
@@ -81,30 +86,35 @@ export default function App() {
     <div className="app-layout">
       <header className="app-header">
         <div className="header-left">
-          <span className="header-emblem">⛲</span>
+          <span className="header-emblem"><BrandMark size={24} /></span>
           <div className="header-title-group">
             <h1>Ataraxia</h1>
             <span className="header-subtitle">Restaurant discovery · Kathmandu</span>
           </div>
         </div>
-        <nav className="header-nav">
+        <nav className="header-nav" aria-label="Primary">
           <button
+            type="button"
             className={`nav-tab ${view === 'chat' ? 'active' : ''}`}
             onClick={() => setView('chat')}
           >
-            💬 Chat
+            <IconChat size={14} /><span>Chat</span>
           </button>
           <button
+            type="button"
             className={`nav-tab ${view === 'dashboard' ? 'active' : ''}`}
             onClick={() => setView('dashboard')}
           >
-            📊 Analytics
+            <IconAnalytics size={14} /><span>Analytics</span>
           </button>
         </nav>
-        <div className="header-badges">
-          <span className="header-badge">Dataset-grounded</span>
-          <span className="header-badge">LLM-Assisted</span>
-          <span className="header-badge">No personal data</span>
+        <div className="header-right">
+          <div className="header-badges">
+            <span className="header-badge">Dataset-grounded</span>
+            <span className="header-badge">LLM-Assisted</span>
+            <span className="header-badge is-muted">No personal data</span>
+          </div>
+          <ThemeToggle />
         </div>
       </header>
 
@@ -112,10 +122,18 @@ export default function App() {
         <aside className="sidebar">
           <section className="panel-card">
             <h3 className="panel-label">Quick actions</h3>
-            <button className="action-btn" onClick={() => sendQuick('areas')}>📍 Show areas</button>
-            <button className="action-btn" onClick={() => sendQuick('cuisines')}>🍽 Show cuisines</button>
-            <button className="action-btn" onClick={() => sendQuick('show all')}>📋 Show all</button>
-            <button className="action-btn" onClick={handleReset}>✕ Clear filters</button>
+            <button className="action-btn" onClick={() => sendQuick('areas')}>
+              <IconMapPin size={14} /><span>Show areas</span>
+            </button>
+            <button className="action-btn" onClick={() => sendQuick('cuisines')}>
+              <IconUtensils size={14} /><span>Show cuisines</span>
+            </button>
+            <button className="action-btn" onClick={() => sendQuick('show all')}>
+              <IconList size={14} /><span>Show all</span>
+            </button>
+            <button className="action-btn is-danger" onClick={handleReset}>
+              <IconReset size={14} /><span>Clear filters</span>
+            </button>
           </section>
 
           {view === 'chat' && (
@@ -125,12 +143,13 @@ export default function App() {
                 {SAVED_SEARCHES.map((s, i) => (
                   <button
                     key={i}
+                    type="button"
                     className="saved-search-chip"
                     onClick={() => sendQuick(s.query)}
                     title={s.query}
                   >
-                    <span className="saved-search-icon">🔍</span>
-                    {s.label}
+                    <IconSearch size={12} />
+                    <span>{s.label}</span>
                   </button>
                 ))}
               </section>
@@ -142,16 +161,9 @@ export default function App() {
                     filterEntries.map(([key, value]) => (
                       <span
                         key={key}
-                        className="filter-tag"
-                        style={{
-                          borderColor: `${FILTER_COLORS[key] || '#14B8A6'}44`,
-                          background: `${FILTER_COLORS[key] || '#14B8A6'}15`,
-                        }}
+                        className={`filter-tag ${FILTER_TINTS[key] || 'tint-neutral'}`}
                       >
-                        <span
-                          className="filter-dot"
-                          style={{ background: FILTER_COLORS[key] || '#14B8A6' }}
-                        />
+                        <span className="filter-dot" />
                         <span className="filter-k">{LABELS[key] || key}:</span>
                         <span className="filter-v">{Array.isArray(value) ? value.join(', ') : String(value)}</span>
                       </span>
@@ -183,12 +195,12 @@ export default function App() {
 
           <section className="panel-card">
             <h3 className="panel-label">System</h3>
-            <div className="dataset-stat">
-              <span className="stat-num">✓</span>
+            <div className="dataset-stat stat-line">
+              <IconShield size={13} className="stat-check" />
               <span className="stat-label">Hallucination guard: Active</span>
             </div>
-            <div className="dataset-stat">
-              <span className="stat-num">✓</span>
+            <div className="dataset-stat stat-line">
+              <IconShield size={13} className="stat-check" />
               <span className="stat-label">Grounded response check: Enabled</span>
             </div>
           </section>

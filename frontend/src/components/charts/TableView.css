@@ -1,9 +1,9 @@
 .table-view {
   background: var(--surface);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   padding: 18px;
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-lift);
 }
 
 .table-scroll {
@@ -14,7 +14,6 @@
   width: 100%;
   border-collapse: collapse;
   font-size: 13px;
-  font-family: var(--font-sans);
 }
 
 .data-table th {
@@ -25,14 +24,14 @@
   letter-spacing: 0.05em;
   color: var(--text-muted);
   padding: 8px 10px;
-  border-bottom: 2px solid var(--border-soft);
+  border-bottom: 2px solid var(--border);
   white-space: nowrap;
 }
 
 .data-table td {
   padding: 8px 10px;
-  border-bottom: 1px solid var(--border-soft);
-  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-body);
 }
 
 .data-table tbody tr:hover {

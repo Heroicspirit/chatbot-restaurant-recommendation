@@ -1,9 +1,9 @@
 .bar-chart {
   background: var(--surface);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   padding: 18px;
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-lift);
 }
 
 .bar-chart-body {
@@ -26,7 +26,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   flex-shrink: 0;
-  font-family: var(--font-sans);
 }
 
 .bar-track {
@@ -52,5 +51,4 @@
   font-weight: 600;
   color: var(--text-muted);
   flex-shrink: 0;
-  font-family: var(--font-sans);
 }

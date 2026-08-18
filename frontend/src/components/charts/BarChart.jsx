@@ -1,7 +1,7 @@
 import React from 'react'
 import './BarChart.css'
 
-const BAR_COLORS = ['#8FA89A', '#C4956A', '#D4A574', '#A67C55', '#6F8A7C']
+const BAR_COLORS = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)', 'var(--chart-4)', 'var(--chart-5)']
 
 export default function BarChart({ data, title, horizontal = false, maxBars = 12 }) {
   if (!data || data.length === 0) return null

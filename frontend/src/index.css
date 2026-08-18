@@ -1,45 +1,158 @@
-:root {
-  --bg: #F7F3EE;
-  --surface: #FFFFFF;
-  --surface-soft: #F5F1EC;
-  --surface-muted: #EFE9E2;
-  --text: #2D2824;
-  --text-muted: #8B8278;
-  --text-light: #B0A79C;
-  --border: #E3DBD1;
-  --border-soft: #EDE7DF;
-  --primary: #C4956A;
-  --primary-dark: #A67C55;
-  --primary-light: rgba(196, 149, 106, 0.10);
-  --primary-mid: rgba(196, 149, 106, 0.18);
-  --sage: #8FA89A;
-  --sage-dark: #6F8A7C;
-  --sage-light: rgba(143, 168, 154, 0.12);
-  --sage-mid: rgba(143, 168, 154, 0.20);
-  --gold: #D4A574;
-  --gold-light: rgba(212, 165, 116, 0.12);
-  --gold-mid: rgba(212, 165, 116, 0.20);
-  --success: #8FA89A;
-  --success-light: rgba(143, 168, 154, 0.12);
-  --danger: #C47D6A;
-  --danger-light: rgba(196, 125, 106, 0.10);
-  --warning: #D4A574;
-  --warning-light: rgba(212, 165, 116, 0.12);
-  --shadow-sm: 0 2px 8px rgba(45, 40, 36, 0.05);
-  --shadow-md: 0 8px 24px rgba(45, 40, 36, 0.07);
-  --shadow-lg: 0 16px 40px rgba(45, 40, 36, 0.09);
-  --shadow-card: 0 4px 16px rgba(45, 40, 36, 0.05);
-  --radius-xs: 8px;
-  --radius-sm: 12px;
-  --radius-md: 16px;
-  --radius-lg: 20px;
-  --radius-xl: 24px;
+/* ═══════════════════════════════════════════════════════════════
+   Ataraxia — Neo Kinpaku design tokens
+   Contract: DESIGN.md (adapted from Impeccable design system)
+   Dark = lacquer (default) · Light = warm paper
+   ═══════════════════════════════════════════════════════════════ */
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg: oklch(7% 0.006 95);
+  --surface: oklch(11% 0.006 95);
+  --surface-deep: oklch(4% 0.004 95);
+  --surface-soft: oklch(15% 0.008 95);
+  --surface-muted: oklch(19% 0.008 95);
+
+  /* Text */
+  --text: oklch(91% 0 0);
+  --text-body: oklch(88% 0 0);
+  --text-muted: oklch(72% 0 0);
+  --text-faint: oklch(62% 0 0);
+  --text-disabled: oklch(52% 0 0);
+
+  /* Borders */
+  --border: oklch(78% 0 0 / 0.16);
+  --border-strong: oklch(74% 0.09 82 / 0.6);
+
+  /* Brand */
+  --primary: oklch(84% 0.19 80.46);
+  --primary-hover: oklch(86% 0.07 84);
+  --primary-active: oklch(77% 0.13 82);
+  --primary-soft: oklch(78% 0.12 82 / 0.18);
+  --on-primary: oklch(14% 0.018 95);
+  --secondary: oklch(70% 0.12 188);
+  --secondary-hover: oklch(82% 0.07 188);
+  --secondary-deep: oklch(49% 0.08 188);
+  --secondary-soft: oklch(70% 0.105 190 / 0.16);
+
+  /* State */
+  --success: oklch(58% 0.12 145);
+  --success-soft: oklch(58% 0.12 145 / 0.14);
+  --warning: oklch(58% 0.15 35);
+  --warning-soft: oklch(58% 0.15 35 / 0.14);
+
+  /* Ambient ground gradients */
+  --ambient-a: oklch(84% 0.19 80.46 / 0.06);
+  --ambient-b: oklch(70% 0.12 188 / 0.05);
+
+  /* Elevation */
+  --shadow-panel: 0 24px 70px oklch(2% 0.004 95 / 0.42);
+  --shadow-lift: 0 2px 10px oklch(2% 0.004 95 / 0.3);
+  --shadow-glow: 0 0 22px oklch(70% 0.105 190 / 0.24);
+
+  /* Chart palette (Kinpaku ramp + patina ramp, no rainbow) */
+  --chart-1: oklch(84% 0.19 80.46);
+  --chart-2: oklch(70% 0.12 188);
+  --chart-3: oklch(77% 0.13 82);
+  --chart-4: oklch(82% 0.07 188);
+  --chart-5: oklch(61% 0.085 78);
+  --chart-soft-1: oklch(84% 0.19 80.46 / 0.14);
+  --chart-soft-2: oklch(70% 0.12 188 / 0.14);
+  --chart-soft-3: oklch(77% 0.13 82 / 0.14);
+  --chart-soft-4: oklch(82% 0.07 188 / 0.14);
+  --chart-soft-5: oklch(61% 0.085 78 / 0.14);
+
+  --font-display: 'Alumni Sans', 'Albert Sans', Arial, sans-serif;
+  --font-body: 'Albert Sans', 'Avenir Next', 'Helvetica Neue', Arial, system-ui, sans-serif;
+  --font-mono: 'SFMono-Regular', 'Roboto Mono', Consolas, monospace;
+
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
   --radius-full: 999px;
-  --font: 'Georgia', 'Palatino Linotype', 'Book Antiqua', serif;
-  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur: 180ms;
 }
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  /* Surfaces */
+  --bg: oklch(97% 0.012 95);
+  --surface: oklch(99% 0.008 95);
+  --surface-deep: oklch(94% 0.014 95);
+  --surface-soft: oklch(91% 0.012 95);
+  --surface-muted: oklch(88% 0.014 95);
+
+  /* Text */
+  --text: oklch(18% 0.02 95);
+  --text-body: oklch(25% 0.018 95);
+  --text-muted: oklch(45% 0.015 95);
+  --text-faint: oklch(55% 0.012 95);
+  --text-disabled: oklch(65% 0.01 95);
+
+  /* Borders */
+  --border: oklch(25% 0.02 95 / 0.14);
+  --border-strong: oklch(49% 0.08 188 / 0.55);
+
+  /* Brand — gold by size on paper: small accents go patina-deep */
+  --primary: oklch(61% 0.085 78);
+  --primary-hover: oklch(84% 0.19 80.46);
+  --primary-active: oklch(77% 0.13 82);
+  --primary-soft: oklch(61% 0.085 78 / 0.12);
+  --on-primary: oklch(99% 0.008 95);
+  --secondary: oklch(49% 0.08 188);
+  --secondary-hover: oklch(37% 0.07 188);
+  --secondary-deep: oklch(30% 0.06 188);
+  --secondary-soft: oklch(49% 0.08 188 / 0.1);
+
+  /* State */
+  --success: oklch(40% 0.1 145);
+  --success-soft: oklch(40% 0.1 145 / 0.12);
+  --warning: oklch(52% 0.16 35);
+  --warning-soft: oklch(52% 0.16 35 / 0.12);
+
+  /* Ambient ground gradients */
+  --ambient-a: oklch(61% 0.085 78 / 0.07);
+  --ambient-b: oklch(49% 0.08 188 / 0.06);
+
+  /* Elevation */
+  --shadow-panel: 0 16px 40px oklch(25% 0.02 95 / 0.12);
+  --shadow-lift: 0 2px 8px oklch(25% 0.02 95 / 0.08);
+  --shadow-glow: 0 0 18px oklch(49% 0.08 188 / 0.25);
+
+  /* Chart palette (Kinpaku ramp + patina ramp, no rainbow) */
+  --chart-1: oklch(61% 0.085 78);
+  --chart-2: oklch(49% 0.08 188);
+  --chart-3: oklch(77% 0.13 82);
+  --chart-4: oklch(37% 0.07 188);
+  --chart-5: oklch(30% 0.02 95);
+  --chart-soft-1: oklch(61% 0.085 78 / 0.12);
+  --chart-soft-2: oklch(49% 0.08 188 / 0.12);
+  --chart-soft-3: oklch(77% 0.13 82 / 0.12);
+  --chart-soft-4: oklch(37% 0.07 188 / 0.12);
+  --chart-soft-5: oklch(30% 0.02 95 / 0.12);
+
+  --font-display: 'Alumni Sans', 'Albert Sans', Arial, sans-serif;
+  --font-body: 'Albert Sans', 'Avenir Next', 'Helvetica Neue', Arial, system-ui, sans-serif;
+  --font-mono: 'SFMono-Regular', 'Roboto Mono', Consolas, monospace;
+
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-full: 999px;
+
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur: 180ms;
+}
+
+/* ═══════════════ Base ═══════════════ */
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -47,22 +160,50 @@
   padding: 0;
 }
 
+html, body, #root {
+  height: 100%;
+}
+
 body {
   min-height: 100vh;
   background:
-    radial-gradient(ellipse at 20% 0%, rgba(196, 149, 106, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 100%, rgba(143, 168, 154, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 18% 0%, var(--ambient-a) 0%, transparent 52%),
+    radial-gradient(ellipse at 82% 100%, var(--ambient-b) 0%, transparent 52%),
     var(--bg);
-  color: var(--text);
-  font-family: var(--font-sans);
+  color: var(--text-body);
+  font-family: var(--font-body);
   font-size: 15px;
-  line-height: 1.6;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+button {
+  font-family: var(--font-body);
+}
+
+input, textarea, select {
+  font-family: var(--font-body);
+}
+
+:where(button, input, textarea, [role='button'], a, select) {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--secondary);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--primary-soft);
+  color: var(--text);
 }
 
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -75,11 +216,15 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-light);
+  background: var(--text-faint);
 }
 
-#root {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
+/* Tracked mono eyebrow label */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-faint);
 }
