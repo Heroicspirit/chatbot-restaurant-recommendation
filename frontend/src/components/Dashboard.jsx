@@ -4,6 +4,7 @@ import DonutChart from './charts/DonutChart'
 import BarChart from './charts/BarChart'
 import TableView from './charts/TableView'
 import { getRestaurants } from '../services/api'
+import { IconUtensils, IconStar, IconSparkle, IconTag } from './icons'
 import './Dashboard.css'
 
 export default function Dashboard() {
@@ -39,9 +40,9 @@ export default function Dashboard() {
   const avgPrice = restaurants.reduce((s, r) => s + (parseFloat(r.avg_price_per_person) || 0), 0) / total
 
   const priceTiers = [
-    { label: 'Budget-friendly', value: restaurants.filter(r => (r.price_level || '').toLowerCase() === 'low').length, color: '#8FA89A' },
-    { label: 'Moderate', value: restaurants.filter(r => (r.price_level || '').toLowerCase() === 'medium').length, color: '#D4A574' },
-    { label: 'Premium', value: restaurants.filter(r => (r.price_level || '').toLowerCase() === 'high').length, color: '#C47D6A' },
+    { label: 'Budget-friendly', value: restaurants.filter(r => (r.price_level || '').toLowerCase() === 'low').length, color: 'var(--chart-2)' },
+    { label: 'Moderate', value: restaurants.filter(r => (r.price_level || '').toLowerCase() === 'medium').length, color: 'var(--chart-1)' },
+    { label: 'Premium', value: restaurants.filter(r => (r.price_level || '').toLowerCase() === 'high').length, color: 'var(--chart-5)' },
   ]
 
   const cuisineCounts = {}
@@ -67,15 +68,15 @@ export default function Dashboard() {
   const dietaryData = dietaryOptions.map(d => ({
     label: d.charAt(0).toUpperCase() + d.slice(1),
     value: restaurants.filter(r => (r.dietary || '').toLowerCase() === d || (d === 'both' && !r.dietary)).length,
-    color: d === 'veg' ? '#8FA89A' : d === 'non-veg' ? '#C47D6A' : '#D4A574',
+    color: d === 'veg' ? 'var(--chart-2)' : d === 'non-veg' ? 'var(--chart-4)' : 'var(--chart-1)',
   }))
 
   const ratingRanges = [
-    { label: '4.5+', value: restaurants.filter(r => parseFloat(r.rating) >= 4.5).length, color: '#8FA89A' },
-    { label: '4.0–4.4', value: restaurants.filter(r => { const rt = parseFloat(r.rating); return rt >= 4.0 && rt < 4.5 }).length, color: '#C4956A' },
-    { label: '3.5–3.9', value: restaurants.filter(r => { const rt = parseFloat(r.rating); return rt >= 3.5 && rt < 4.0 }).length, color: '#D4A574' },
-    { label: 'Below 3.5', value: restaurants.filter(r => { const rt = parseFloat(r.rating); return rt > 0 && rt < 3.5 }).length, color: '#C47D6A' },
-    { label: 'Unrated', value: restaurants.filter(r => !r.rating || parseFloat(r.rating) <= 0).length, color: '#B0A79C' },
+    { label: '4.5+', value: restaurants.filter(r => parseFloat(r.rating) >= 4.5).length, color: 'var(--chart-2)' },
+    { label: '4.0–4.4', value: restaurants.filter(r => { const rt = parseFloat(r.rating); return rt >= 4.0 && rt < 4.5 }).length, color: 'var(--chart-3)' },
+    { label: '3.5–3.9', value: restaurants.filter(r => { const rt = parseFloat(r.rating); return rt >= 3.5 && rt < 4.0 }).length, color: 'var(--chart-1)' },
+    { label: 'Below 3.5', value: restaurants.filter(r => { const rt = parseFloat(r.rating); return rt > 0 && rt < 3.5 }).length, color: 'var(--chart-4)' },
+    { label: 'Unrated', value: restaurants.filter(r => !r.rating || parseFloat(r.rating) <= 0).length, color: 'var(--chart-5)' },
   ]
 
   const tableColumns = [
@@ -84,7 +85,7 @@ export default function Dashboard() {
     { key: 'cuisine', label: 'Cuisine' },
     {
       key: 'rating', label: 'Rating', width: '80px',
-      render: (val) => val ? <span className="rating-star">★ {val}</span> : '—',
+      render: (val) => val ? <span className="rating-star"><IconStar size={11} /> {val}</span> : '—',
     },
     {
       key: 'avg_price_per_person', label: 'Price', width: '100px',
@@ -104,29 +105,29 @@ export default function Dashboard() {
           label="Total Restaurants"
           value={total}
           subtitle={`Across ${areas.length} areas`}
-          color="#8FA89A"
-          icon="🏛"
+          color="var(--chart-2)"
+          icon={<IconUtensils size={16} />}
         />
         <MetricCard
           label="Average Rating"
           value={avgRating ? avgRating.toFixed(1) : '—'}
           subtitle="Out of 5.0"
-          color="#D4A574"
-          icon="✧"
+          color="var(--chart-1)"
+          icon={<IconStar size={16} />}
         />
         <MetricCard
           label="Cuisine Types"
           value={cuisines.length}
           subtitle="Unique cuisines available"
-          color="#C4956A"
-          icon="𓋴"
+          color="var(--chart-3)"
+          icon={<IconSparkle size={16} />}
         />
         <MetricCard
           label="Avg. Price per Person"
           value={avgPrice ? `Rs. ${Math.round(avgPrice).toLocaleString()}` : '—'}
           subtitle="Across all restaurants"
-          color="#C47D6A"
-          icon="𐅂"
+          color="var(--chart-4)"
+          icon={<IconTag size={16} />}
         />
 
         <div className="dashboard-panel wide">

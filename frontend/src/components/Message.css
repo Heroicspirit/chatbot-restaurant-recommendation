@@ -22,20 +22,19 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-weight: 600;
-  font-size: 12px;
   flex-shrink: 0;
-  font-family: var(--font-sans);
 }
 
 .bot-avatar {
-  background: linear-gradient(135deg, var(--sage), var(--sage-dark));
-  color: white;
+  background: var(--secondary-soft);
+  color: var(--secondary);
+  border: 1px solid var(--border);
 }
 
 .user-avatar {
-  background: var(--text);
-  color: white;
+  background: var(--primary-soft);
+  color: var(--primary);
+  border: 1px solid var(--border);
 }
 
 /* ── Bubble Column ── */
@@ -52,20 +51,19 @@
   line-height: 1.65;
   white-space: pre-wrap;
   word-wrap: break-word;
-  font-family: var(--font-sans);
 }
 
 .bot-bubble {
   background: var(--surface-soft);
-  border: 1px solid var(--border-soft);
-  border-top-left-radius: 4px;
-  color: var(--text);
+  border: 1px solid var(--border);
+  border-top-left-radius: var(--radius-xs);
+  color: var(--text-body);
 }
 
 .user-bubble {
   background: var(--primary);
-  color: white;
-  border-bottom-right-radius: 4px;
+  color: var(--on-primary);
+  border-bottom-right-radius: var(--radius-xs);
   display: inline-block;
   max-width: 480px;
   margin-left: auto;
@@ -73,15 +71,15 @@
 
 /* ── Compact Filters Bar ── */
 .compact-filters {
-  font-size: 12px;
-  color: var(--sage-dark);
-  background: var(--sage-light);
-  border: 1px solid rgba(143, 168, 154, 0.2);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--secondary);
+  background: var(--secondary-soft);
+  border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 6px 10px;
   margin-bottom: 10px;
-  line-height: 1.4;
-  font-family: var(--font-sans);
+  line-height: 1.5;
 }
 
 /* ── Cards Container ── */
@@ -90,4 +88,22 @@
   flex-direction: column;
   gap: 10px;
   margin-top: 10px;
+}
+
+/* ── Regenerate Button ── */
+.regenerate-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  background: transparent;
+  border: none;
+  color: var(--text-faint);
+  font-size: 12px;
+  cursor: pointer;
+  transition: color var(--dur) var(--ease);
+}
+
+.regenerate-btn:hover {
+  color: var(--secondary);
 }
